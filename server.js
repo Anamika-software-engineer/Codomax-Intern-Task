@@ -1,6 +1,10 @@
 // Day 5 - Express.js Tasks
 // Goal: Create an Express server with GET and POST routes
 
+
+// Day 6 - Add Blog Tasks
+// Goal: Properly finish the API that creates blog posts (auto id, timestamp, validation)
+
 const express = require("express");
 
 const app = express();
@@ -8,10 +12,10 @@ const PORT = 3000;
 
 app.use(express.json());
 
-// Temporary in-memory storage (a database is not required for this project)
 let blogs = [
-  { id: 1, title: "Welcome to My Blog", content: "This is the very first post on the site." }
+  { id: 1, title: "Welcome to My Blog", content: "This is the very first post on the site.", createdAt: new Date().toISOString() }
 ];
+let nextId = 2;
 
 app.get("/api/blogs", (req, res) => {
   res.status(200).json(blogs);
@@ -25,9 +29,10 @@ app.post("/api/blogs", (req, res) => {
   }
 
   const newBlog = {
-    id: blogs.length + 1,
+    id: nextId++,
     title,
-    content
+    content,
+    createdAt: new Date().toISOString()
   };
 
   blogs.push(newBlog);

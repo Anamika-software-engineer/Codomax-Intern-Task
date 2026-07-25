@@ -3,7 +3,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("addBlogForm");
 
-  // Only run this code on the Add Blog page
+  // Only run this on the Add Blog page
   if (!form) return;
 
   const titleInput = document.getElementById("title");
@@ -16,7 +16,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const title = titleInput.value.trim();
     const content = contentInput.value.trim();
 
-    // Basic validation checks
     if (title === "" || content === "") {
       errorMessage.textContent = "Please fill in both the title and content fields.";
       return;
@@ -32,14 +31,12 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // If validation passes, clear the error and confirm success
+    // Backend connection comes on Day 10 - for now just confirm validation passed
     errorMessage.textContent = "";
-    alert("Blog validated successfully! (Backend connection comes in a later task)");
-
+    alert("Form validated successfully!");
     form.reset();
   });
 
-  // Clear error message as soon as the user starts typing again
   [titleInput, contentInput].forEach((field) => {
     field.addEventListener("input", () => {
       errorMessage.textContent = "";

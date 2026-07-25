@@ -1,4 +1,4 @@
-/* Day 3 - Styling for header, forms, buttons and blog cards */
+/* Day 3 - Base styling for header, forms, buttons and blog cards */
 
 * {
   margin: 0;
@@ -37,11 +37,6 @@ body {
   color: #fff;
   text-decoration: none;
   font-weight: 500;
-  transition: opacity 0.2s ease;
-}
-
-.nav-links a:hover {
-  opacity: 0.8;
 }
 
 /* ---------- Layout ---------- */
@@ -123,7 +118,6 @@ body {
   font-size: 15px;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s ease;
 }
 
 .btn-primary:hover {

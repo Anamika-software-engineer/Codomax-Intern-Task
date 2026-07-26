@@ -1,16 +1,18 @@
-// Day 5 - Express.js Tasks
-// Goal: Create an Express server with GET and POST routes
-
-
-// Day 6 - Add Blog Tasks
-// Goal: Properly finish the API that creates blog posts (auto id, timestamp, validation)
-
 const express = require("express");
 
 const app = express();
 const PORT = 3000;
 
 app.use(express.json());
+
+// Allow the frontend (opened separately via Live Server on port 5500)
+// to call this API, which runs on port 3000
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
+  next();
+});
 
 let blogs = [
   { id: 1, title: "Welcome to My Blog", content: "This is the very first post on the site.", createdAt: new Date().toISOString() }

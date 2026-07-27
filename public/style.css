@@ -133,3 +133,34 @@ body {
   color: #ccc;
   font-size: 14px;
 }
+
+.card-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.btn-edit {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  background-color: #e8d3de;
+  color: #7a1f4b;
+}
+
+.btn-edit:hover {
+  background-color: #d9b8c8;
+}
+
+.blog-card .edit-title,
+.blog-card .edit-content {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}

@@ -5,8 +5,6 @@ const PORT = 3000;
 
 app.use(express.json());
 
-// Allow the frontend (opened separately via Live Server on port 5500)
-// to call this API, which runs on port 3000
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
@@ -39,6 +37,27 @@ app.post("/api/blogs", (req, res) => {
 
   blogs.push(newBlog);
   res.status(201).json(newBlog);
+});
+
+// PUT - update an existing blog post
+app.put("/api/blogs/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const { title, content } = req.body;
+
+  const blog = blogs.find((b) => b.id === id);
+
+  if (!blog) {
+    return res.status(404).json({ message: "Blog not found." });
+  }
+
+  if (!title || !content) {
+    return res.status(400).json({ message: "Title and content are required." });
+  }
+
+  blog.title = title;
+  blog.content = content;
+
+  res.status(200).json(blog);
 });
 
 app.listen(PORT, () => {

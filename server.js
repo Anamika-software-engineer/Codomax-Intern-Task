@@ -60,6 +60,20 @@ app.put("/api/blogs/:id", (req, res) => {
   res.status(200).json(blog);
 });
 
+
+// DELETE - remove a blog post
+app.delete("/api/blogs/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const index = blogs.findIndex((b) => b.id === id);
+
+  if (index === -1) {
+    return res.status(404).json({ message: "Blog not found." });
+  }
+
+  blogs.splice(index, 1);
+  res.status(200).json({ message: "Blog deleted successfully." });
+});
+
 app.listen(PORT, () => {
   console.log(`Backend server ready at http://localhost:${PORT}`);
 });

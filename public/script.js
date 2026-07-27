@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-/* ---------- Home page: view + edit blogs ---------- */
+/* ---------- Home page: view, edit, delete blogs ---------- */
 
 async function loadBlogs() {
   const blogList = document.getElementById("blogList");
@@ -40,7 +40,10 @@ function renderBlogCard(blog) {
     <div class="blog-card" data-id="${blog.id}">
       <h3 class="blog-title">${blog.title}</h3>
       <p class="blog-content">${blog.content}</p>
-      <button class="btn-edit" data-id="${blog.id}">Edit</button>
+      <div class="card-actions">
+        <button class="btn-edit" data-id="${blog.id}">Edit</button>
+        <button class="btn-delete" data-id="${blog.id}">Delete</button>
+      </div>
     </div>
   `;
 }
@@ -48,6 +51,10 @@ function renderBlogCard(blog) {
 function attachCardListeners() {
   document.querySelectorAll(".btn-edit").forEach((button) => {
     button.addEventListener("click", () => openEditForm(button.dataset.id));
+  });
+
+  document.querySelectorAll(".btn-delete").forEach((button) => {
+    button.addEventListener("click", () => deleteBlog(button.dataset.id));
   });
 }
 
@@ -84,6 +91,18 @@ async function saveBlog(id, card) {
     loadBlogs();
   } catch (error) {
     console.error("Error updating blog:", error);
+  }
+}
+
+async function deleteBlog(id) {
+  const confirmed = confirm("Are you sure you want to delete this blog post?");
+  if (!confirmed) return;
+
+  try {
+    await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+    loadBlogs();
+  } catch (error) {
+    console.error("Error deleting blog:", error);
   }
 }
 

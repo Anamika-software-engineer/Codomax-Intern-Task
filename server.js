@@ -1,16 +1,22 @@
 const express = require("express");
+const path = require("path");
 
 const app = express();
 const PORT = 3000;
 
 app.use(express.json());
 
+// Now that Express serves the frontend itself, everything is on one origin -
+// CORS headers are no longer required, but are harmless to leave in
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
   res.header("Access-Control-Allow-Headers", "Content-Type");
   next();
 });
+
+// Serve index.html, add-blog.html, style.css, script.js directly
+app.use(express.static(path.join(__dirname, "public")));
 
 let blogs = [
   { id: 1, title: "Welcome to My Blog", content: "This is the very first post on the site.", createdAt: new Date().toISOString() }
@@ -39,7 +45,6 @@ app.post("/api/blogs", (req, res) => {
   res.status(201).json(newBlog);
 });
 
-// PUT - update an existing blog post
 app.put("/api/blogs/:id", (req, res) => {
   const id = parseInt(req.params.id);
   const { title, content } = req.body;
@@ -60,8 +65,6 @@ app.put("/api/blogs/:id", (req, res) => {
   res.status(200).json(blog);
 });
 
-
-// DELETE - remove a blog post
 app.delete("/api/blogs/:id", (req, res) => {
   const id = parseInt(req.params.id);
   const index = blogs.findIndex((b) => b.id === id);
@@ -75,5 +78,5 @@ app.delete("/api/blogs/:id", (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Backend server ready at http://localhost:${PORT}`);
+  console.log(`Server running at http://localhost:${PORT}`);
 });

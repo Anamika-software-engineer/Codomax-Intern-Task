@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3000/api/blogs";
+const API_URL = "/api/blogs";
 
 document.addEventListener("DOMContentLoaded", () => {
   const blogList = document.getElementById("blogList");
@@ -106,14 +106,14 @@ async function deleteBlog(id) {
   }
 }
 
-/* ---------- Add Blog page: validation (from Day 4) ---------- */
+/* ---------- Add Blog page: now actually saves to the backend ---------- */
 
 function setupAddBlogForm(form) {
   const titleInput = document.getElementById("title");
   const contentInput = document.getElementById("content");
   const errorMessage = document.getElementById("formError");
 
-  form.addEventListener("submit", (event) => {
+  form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
     const title = titleInput.value.trim();
@@ -134,9 +134,24 @@ function setupAddBlogForm(form) {
       return;
     }
 
-    errorMessage.textContent = "";
-    alert("Form validated successfully!");
-    form.reset();
+    try {
+      const response = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title, content })
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to save blog.");
+      }
+
+      errorMessage.textContent = "";
+      form.reset();
+      window.location.href = "index.html";
+    } catch (error) {
+      errorMessage.textContent = "Something went wrong while saving your blog. Is the server running?";
+      console.error(error);
+    }
   });
 
   [titleInput, contentInput].forEach((field) => {
